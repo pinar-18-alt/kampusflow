@@ -1,0 +1,218 @@
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { format } from "date-fns";
+import { tr } from "date-fns/locale/tr";
+import { auth } from "@/lib/auth";
+import { RegistrationButton } from "./RegistrationButton";
+import { getInternalBaseUrl } from "@/lib/internal-url";
+
+export const dynamic = "force-dynamic";
+
+type ApiEvent = {
+  id: string;
+  title: string;
+  description: string;
+  quota: number;
+  registeredCount: number;
+  waitlistCount: number;
+  deadline: string;
+  status: string;
+  registrations: Array<{
+    userId: string;
+    status: string;
+    position: number | null;
+  }>;
+};
+
+async function fetchEvent(id: string): Promise<ApiEvent | null> {
+  const base = getInternalBaseUrl();
+  const res = await fetch(`${base}/api/events/${id}`, { cache: "no-store" });
+  if (res.status === 404) return null;
+  if (!res.ok) return null;
+  const data = (await res.json()) as { event?: ApiEvent };
+  return data.event ?? null;
+}
+
+function heroStatusBadge(
+  status: string,
+  registeredCount: number,
+  quota: number
+) {
+  const full = quota > 0 && registeredCount >= quota;
+  if (full) {
+    return (
+      <span className="rounded-full border border-white/40 bg-white/15 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+        Kontenjan Dolu
+      </span>
+    );
+  }
+  if (status !== "active") {
+    return (
+      <span className="rounded-full border border-white/40 bg-white/15 px-3 py-1 text-xs font-semibold text-white/95 backdrop-blur-sm">
+        Kapandı
+      </span>
+    );
+  }
+  return (
+    <span className="rounded-full border border-white/40 bg-white/20 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+      Aktif
+    </span>
+  );
+}
+
+function quotaPercent(registeredCount: number, quota: number) {
+  if (quota <= 0) return 0;
+  return Math.min(100, (registeredCount / quota) * 100);
+}
+
+export default async function EventDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const { id } = params;
+  const event = await fetchEvent(id);
+  if (!event) notFound();
+
+  const session = await auth();
+  const userId = session?.user?.id;
+  const myReg = userId
+    ? event.registrations.find((r) => r.userId === userId)
+    : undefined;
+
+  const initialStatus =
+    myReg?.status === "confirmed" || myReg?.status === "waitlist"
+      ? myReg.status
+      : null;
+  const waitlistPosition =
+    myReg?.status === "waitlist" && myReg.position != null
+      ? myReg.position
+      : null;
+
+  const deadlineDate = new Date(event.deadline);
+  const deadlineLabel = format(deadlineDate, "d MMMM yyyy, HH:mm", {
+    locale: tr,
+  });
+
+  const pct = quotaPercent(event.registeredCount, event.quota);
+
+  return (
+    <main className="mx-auto max-w-6xl px-4 py-6 md:py-10">
+      <Link
+        href="/events"
+        className="mb-6 inline-flex items-center gap-1 text-sm font-semibold text-[#00A693] transition-colors hover:text-[#005F73]"
+      >
+        ← Etkinliklere Dön
+      </Link>
+
+      <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_min(100%,380px)] lg:items-start lg:gap-10">
+        <div className="min-w-0 space-y-6">
+          <div className="mb-6 rounded-2xl bg-gradient-to-r from-[#00A693] to-[#005F73] p-8 text-white shadow-lg">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div className="min-w-0 flex-1">
+                <div className="mb-3">
+                  {heroStatusBadge(
+                    event.status,
+                    event.registeredCount,
+                    event.quota
+                  )}
+                </div>
+                <h1 className="text-2xl font-bold leading-tight md:text-3xl">
+                  {event.title}
+                </h1>
+                <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-teal-100 md:text-base">
+                  {event.description}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-400">
+              Açıklama
+            </h2>
+            <p className="mt-2 whitespace-pre-wrap text-gray-700 leading-relaxed">
+              {event.description}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+              <p className="text-xs uppercase tracking-wide text-gray-400">
+                Kontenjan
+              </p>
+              <p className="mt-1 text-lg font-bold text-gray-900">
+                {event.quota} kişi
+              </p>
+            </div>
+            <div className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+              <p className="text-xs uppercase tracking-wide text-gray-400">
+                Kayıtlı
+              </p>
+              <p className="mt-1 text-lg font-bold text-gray-900">
+                {event.registeredCount}
+              </p>
+            </div>
+            <div className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+              <p className="text-xs uppercase tracking-wide text-gray-400">
+                Bekleme
+              </p>
+              <p className="mt-1 text-lg font-bold text-gray-900">
+                {event.waitlistCount}
+              </p>
+            </div>
+            <div className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+              <p className="text-xs uppercase tracking-wide text-gray-400">
+                Son Başvuru
+              </p>
+              <p className="mt-1 text-lg font-bold text-gray-900">
+                {deadlineLabel}
+              </p>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+              Doluluk
+            </h2>
+            <div className="mt-3">
+              <div className="mb-2 flex justify-between text-sm text-gray-600">
+                <span>
+                  {event.registeredCount} / {event.quota} kayıtlı
+                </span>
+                <span className="font-semibold text-[#00A693]">
+                  {Math.round(pct)}%
+                </span>
+              </div>
+              <div className="h-3 w-full overflow-hidden rounded-full bg-gray-100">
+                <div
+                  className="h-3 rounded-full bg-[#00A693] transition-all duration-500"
+                  style={{ width: `${pct}%` }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside className="lg:sticky lg:top-24 lg:self-start">
+          <section className="rounded-2xl border border-gray-100 bg-white p-6 shadow-md">
+            <h2 className="text-lg font-bold text-[#005F73]">Kayıt</h2>
+            <p className="mt-1 text-sm text-gray-500">
+              Etkinliğe katılmak veya kaydını yönetmek için aşağıdaki seçenekleri
+              kullanın.
+            </p>
+            <div className="mt-5">
+              <RegistrationButton
+                eventId={event.id}
+                initialStatus={initialStatus}
+                waitlistPosition={waitlistPosition}
+                eventStatus={event.status}
+                deadline={event.deadline}
+              />
+            </div>
+          </section>
+        </aside>
+      </div>
+    </main>
+  );
+}
