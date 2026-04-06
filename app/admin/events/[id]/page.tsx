@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 function statusBadge(status: string) {
   if (status === "active") {
     return (
-      <span className="rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-800">
+      <span className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">
         Aktif
       </span>
     );
@@ -66,7 +66,7 @@ export default async function AdminEventDetailPage({
     <div>
       <Link
         href="/admin/events"
-        className="text-sm font-medium text-[#00A693] transition-colors hover:text-[#005F73] hover:underline"
+        className="text-sm font-medium text-[#2563EB] transition-colors hover:text-[#1E3A8A] hover:underline"
       >
         ← Etkinlik Yönetimine Dön
       </Link>
@@ -83,11 +83,11 @@ export default async function AdminEventDetailPage({
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
               Topluluk
             </p>
-            <p className="text-lg font-bold text-[#005F73]">{community}</p>
+            <p className="text-lg font-bold text-[#1E3A8A]">{community}</p>
           </div>
         </div>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <h1 className="text-2xl font-bold text-[#005F73]">{event.title}</h1>
+          <h1 className="text-2xl font-bold text-[#1E3A8A]">{event.title}</h1>
           <div className="flex flex-wrap items-center gap-3">
             {statusBadge(event.status)}
             {event.status === "active" ? (
@@ -101,13 +101,13 @@ export default async function AdminEventDetailPage({
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
               Kontenjan
             </p>
-            <p className="mt-1 text-lg font-bold text-[#00A693]">{event.quota}</p>
+            <p className="mt-1 text-lg font-bold text-[#2563EB]">{event.quota}</p>
           </div>
           <div className="rounded-xl bg-slate-50 p-4">
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
               Kayıtlı
             </p>
-            <p className="mt-1 text-lg font-bold text-[#00A693]">
+            <p className="mt-1 text-lg font-bold text-[#2563EB]">
               {event.registeredCount}
             </p>
           </div>
@@ -115,7 +115,7 @@ export default async function AdminEventDetailPage({
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
               Bekleme
             </p>
-            <p className="mt-1 text-lg font-bold text-[#00A693]">
+            <p className="mt-1 text-lg font-bold text-[#2563EB]">
               {event.waitlistCount}
             </p>
           </div>
@@ -140,7 +140,7 @@ export default async function AdminEventDetailPage({
         </div>
 
         <div className="mt-6 border-t border-slate-100 pt-6">
-          <h2 className="text-sm font-semibold text-[#005F73]">Açıklama</h2>
+          <h2 className="text-sm font-semibold text-[#1E3A8A]">Açıklama</h2>
           <p className="mt-2 whitespace-pre-wrap text-slate-700">
             {event.description}
           </p>
@@ -150,10 +150,10 @@ export default async function AdminEventDetailPage({
       <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-2">
         <section>
           <div className="mb-4 flex flex-wrap items-center gap-3">
-            <h2 className="text-lg font-bold text-[#005F73]">
+            <h2 className="text-lg font-bold text-[#1E3A8A]">
               Katılımcı Listesi
             </h2>
-            <span className="rounded-full bg-[#00A693]/15 px-3 py-0.5 text-sm font-semibold text-[#005F73]">
+            <span className="rounded-full bg-blue-50 px-3 py-0.5 text-sm font-semibold text-[#2563EB]">
               {confirmed.length} katılımcı
             </span>
           </div>
@@ -211,7 +211,7 @@ export default async function AdminEventDetailPage({
 
         <section>
           <div className="mb-4 flex flex-wrap items-center gap-3">
-            <h2 className="text-lg font-bold text-[#005F73]">
+            <h2 className="text-lg font-bold text-[#1E3A8A]">
               Bekleme Listesi
             </h2>
             <span className="rounded-full bg-amber-100 px-3 py-0.5 text-sm font-semibold text-amber-900">

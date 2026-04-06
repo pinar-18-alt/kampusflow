@@ -5,11 +5,11 @@ export const dynamic = "force-dynamic";
 
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-3xl border border-gray-50 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
-      <p className="bg-gradient-to-r from-[#00A693] to-[#005F73] bg-clip-text text-4xl font-bold text-transparent">
+    <div className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm transition-all hover:shadow-md hover:shadow-blue-900/5">
+      <p className="bg-gradient-to-r from-[#1E3A8A] to-[#2563EB] bg-clip-text text-4xl font-bold text-transparent">
         {value}
       </p>
-      <p className="mt-1 text-sm text-gray-400">{label}</p>
+      <p className="mt-1 text-sm text-slate-400">{label}</p>
     </div>
   );
 }
@@ -17,7 +17,7 @@ function StatCard({ label, value }: { label: string; value: number }) {
 function statusBadge(status: string) {
   if (status === "active") {
     return (
-      <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">
+      <span className="rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-xs font-semibold text-blue-700">
         Aktif
       </span>
     );
@@ -51,10 +51,10 @@ export default async function AdminDashboardPage() {
 
   return (
     <div className="min-h-screen">
-      <h1 className="text-2xl font-bold text-[#005F73] md:text-3xl">
+      <h1 className="text-2xl font-bold text-[#1E3A8A] md:text-3xl">
         Dashboard
       </h1>
-      <p className="mt-1 text-gray-600">KampüsFlow yönetim özeti</p>
+      <p className="mt-1 text-slate-600">KampüsFlow yönetim özeti</p>
 
       <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
         <StatCard label="Toplam Etkinlik" value={totalEvents} />
@@ -65,10 +65,10 @@ export default async function AdminDashboardPage() {
       </div>
 
       <section className="mt-12">
-        <h2 className="text-xl font-bold text-[#005F73]">Son Etkinlikler</h2>
-        <div className="mt-4 overflow-hidden rounded-3xl border border-gray-50 bg-white shadow-sm">
+        <h2 className="text-xl font-bold text-[#1E3A8A]">Son Etkinlikler</h2>
+        <div className="mt-4 overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm">
           <table className="min-w-full text-left text-sm">
-            <thead className="bg-gray-50 text-xs uppercase tracking-wider text-gray-400">
+            <thead className="bg-slate-50 text-xs uppercase tracking-wider text-slate-400">
               <tr>
                 <th className="px-4 py-3">Etkinlik Adı</th>
                 <th className="px-4 py-3">Kontenjan</th>
@@ -83,7 +83,7 @@ export default async function AdminDashboardPage() {
                 <tr>
                   <td
                     colSpan={6}
-                    className="px-4 py-8 text-center text-gray-500"
+                    className="px-4 py-8 text-center text-slate-500"
                   >
                     Henüz etkinlik yok
                   </td>
@@ -92,23 +92,23 @@ export default async function AdminDashboardPage() {
                 recentEvents.map((ev) => (
                   <tr
                     key={ev.id}
-                    className="transition-colors hover:bg-teal-50/30"
+                    className="transition-colors hover:bg-blue-50/50"
                   >
-                    <td className="px-4 py-3 font-medium text-gray-900">
+                    <td className="px-4 py-3 font-medium text-[#0F172A]">
                       {ev.title}
                     </td>
-                    <td className="px-4 py-3 text-gray-700">{ev.quota}</td>
-                    <td className="px-4 py-3 text-gray-700">
+                    <td className="px-4 py-3 text-slate-700">{ev.quota}</td>
+                    <td className="px-4 py-3 text-slate-700">
                       {ev.registeredCount}
                     </td>
-                    <td className="px-4 py-3 text-gray-700">
+                    <td className="px-4 py-3 text-slate-700">
                       {ev.waitlistCount}
                     </td>
                     <td className="px-4 py-3">{statusBadge(ev.status)}</td>
                     <td className="px-4 py-3">
                       <Link
                         href={`/admin/events/${ev.id}`}
-                        className="font-medium text-[#00A693] hover:text-[#005F73] hover:underline"
+                        className="font-medium text-[#2563EB] hover:text-[#1E3A8A] hover:underline"
                       >
                         Detay
                       </Link>

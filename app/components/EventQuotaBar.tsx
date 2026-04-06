@@ -10,7 +10,7 @@ export function quotaPercentValue(registeredCount: number, quota: number) {
 function barColorClass(registeredCount: number, quota: number) {
   if (isQuotaFull(registeredCount, quota)) return "bg-red-500";
   const p = quotaPercentValue(registeredCount, quota);
-  if (p < 70) return "bg-emerald-500";
+  if (p < 70) return "bg-blue-600";
   if (p < 100) return "bg-amber-500";
   return "bg-red-500";
 }

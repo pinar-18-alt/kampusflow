@@ -6,12 +6,13 @@ import { useRouter } from "next/navigation";
 import { signIn, getSession } from "next-auth/react";
 
 const inputClass =
-  "w-full rounded-2xl border-2 border-gray-100 bg-gray-50 px-4 py-3.5 text-gray-800 outline-none transition-all duration-200 focus:border-[#00A693] focus:bg-white focus:ring-4 focus:ring-[#00A693]/10";
+  "w-full rounded-2xl border-2 border-slate-100 bg-gray-50 px-4 py-3.5 text-[#0F172A] outline-none transition-all duration-200 focus:border-[#2563EB] focus:bg-white focus:ring-4 focus:ring-blue-500/10";
 
-const labelClass = "mb-1.5 block text-sm font-medium text-gray-700";
+const labelClass =
+  "mb-1.5 block text-sm font-medium text-[#475569]";
 
 const submitClass =
-  "flex w-full transform items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#00A693] to-[#007A6E] py-3.5 font-semibold text-white shadow-lg shadow-[#00A693]/25 transition-all duration-200 hover:-translate-y-0.5 hover:from-[#007A6E] hover:to-[#005F73] hover:shadow-xl hover:shadow-[#00A693]/30 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:shadow-lg";
+  "flex w-full transform items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#1E3A8A] to-[#2563EB] py-3.5 font-semibold text-white shadow-lg shadow-blue-500/25 transition-all duration-200 hover:-translate-y-0.5 hover:from-[#2563EB] hover:to-[#3B82F6] hover:shadow-xl hover:shadow-blue-500/30 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:shadow-lg";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -49,7 +50,7 @@ export default function LoginPage() {
 
   return (
     <div>
-      <h2 className="mb-6 text-center text-xl font-semibold text-gray-800">
+      <h2 className="mb-6 text-center text-xl font-semibold text-[#0F172A]">
         Giriş Yap
       </h2>
       <form onSubmit={handleSubmit} className="space-y-5">
@@ -103,11 +104,11 @@ export default function LoginPage() {
           )}
         </button>
       </form>
-      <p className="mt-6 text-center text-sm text-gray-600">
+      <p className="mt-6 text-center text-sm text-[#475569]">
         Hesabın yok mu?{" "}
         <Link
           href="/register"
-          className="font-medium text-[#00A693] underline-offset-2 hover:text-[#005F73] hover:underline"
+          className="font-medium text-[#2563EB] underline-offset-2 hover:text-[#1E3A8A] hover:underline"
         >
           Kayıt ol
         </Link>

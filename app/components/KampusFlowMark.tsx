@@ -3,7 +3,7 @@ export function KampusFlowMark({ className = "" }: { className?: string }) {
   return (
     <div className={`flex flex-col items-center ${className}`}>
       <div
-        className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#00A693] to-[#005F73] shadow-md"
+        className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#1E3A8A] to-[#2563EB] shadow-md"
         aria-hidden
       >
         <svg
@@ -26,7 +26,7 @@ export function KampusFlowMark({ className = "" }: { className?: string }) {
           />
         </svg>
       </div>
-      <span className="text-2xl font-bold tracking-tight text-[#00A693]">
+      <span className="text-2xl font-bold tracking-tight text-[#1E3A8A]">
         KampüsFlow
       </span>
       <span className="mt-1 text-center text-xs text-gray-500">

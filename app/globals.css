@@ -4,24 +4,24 @@
 
 @layer components {
   .btn-primary {
-    @apply rounded-2xl bg-gradient-to-r from-[#00A693] to-[#007A6E] px-6 py-3 font-semibold text-white transition-all duration-200;
-    @apply hover:-translate-y-0.5 hover:shadow-lg hover:shadow-teal-500/25;
+    @apply rounded-2xl bg-gradient-to-r from-[#1E3A8A] to-[#2563EB] px-6 py-3 font-semibold text-white transition-all duration-200;
+    @apply hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/25;
     @apply active:translate-y-0;
   }
 
   .btn-secondary {
-    @apply rounded-2xl border-2 border-[#00A693] px-6 py-3 font-semibold text-[#00A693] transition-all duration-200;
-    @apply hover:bg-[#00A693] hover:text-white;
+    @apply rounded-2xl border-2 border-[#2563EB] px-6 py-3 font-semibold text-[#2563EB] transition-all duration-200;
+    @apply hover:bg-[#2563EB] hover:text-white;
   }
 
   .card {
-    @apply rounded-3xl border border-gray-100 bg-white;
+    @apply rounded-3xl border border-slate-100 bg-white;
   }
 }
 
 :root {
   --background: #ffffff;
-  --foreground: #1a1a2e;
+  --foreground: #0f172a;
 }
 
 html {
@@ -49,9 +49,45 @@ html {
   -webkit-box-orient: vertical;
 }
 
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, #1e3a8a, #3b82f6, #1e3a8a);
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .animate-float,
+  .animate-shimmer {
+    animation: none;
   }
 }
 
@@ -71,21 +107,20 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-  background: #00a693;
+  background: #2563eb;
   border-radius: 9999px;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: #007a6e;
+  background: #1e3a8a;
 }
 
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #00a693 #f1f5f9;
+  scrollbar-color: #2563eb #f1f5f9;
 }
 
-/* Renk geçişleri — odak: etkileşimli öğeler (global * yerine) */
 @media (prefers-reduced-motion: no-preference) {
   a,
   button,

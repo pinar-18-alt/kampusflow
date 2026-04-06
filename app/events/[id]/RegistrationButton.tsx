@@ -16,6 +16,12 @@ type Props = {
   deadline: string;
 };
 
+const joinClass =
+  "inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#1E3A8A] to-[#2563EB] px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:shadow-md hover:shadow-blue-500/25 disabled:opacity-60";
+
+const cancelClass =
+  "inline-flex items-center justify-center gap-2 rounded-xl border-2 border-red-200 px-5 py-3 text-sm font-semibold text-red-500 transition-colors duration-200 hover:bg-red-50 disabled:opacity-60";
+
 export function RegistrationButton({
   eventId,
   initialStatus,
@@ -115,10 +121,7 @@ export function RegistrationButton({
 
   if (!loggedIn) {
     return (
-      <Link
-        href="/login"
-        className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-primaryDark"
-      >
+      <Link href="/login" className={joinClass}>
         Katılmak için giriş yapın
       </Link>
     );
@@ -127,16 +130,16 @@ export function RegistrationButton({
   if (regStatus === "confirmed") {
     return (
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <span className="inline-flex items-center gap-2 rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-800">
+        <span className="inline-flex items-center gap-2 rounded-full border border-green-100 bg-green-50 px-4 py-2 text-sm font-semibold text-green-700">
           Kaydım Var ✓
         </span>
         <button
           type="button"
           disabled={loading}
           onClick={() => void handleCancel()}
-          className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-red-500 px-5 py-3 text-sm font-semibold text-red-600 transition-colors duration-200 hover:bg-red-50 disabled:opacity-60"
+          className={cancelClass}
         >
-          {loading ? <Spinner className="border-red-600" /> : null}
+          {loading ? <Spinner className="border-red-500" /> : null}
           İptal Et
         </button>
       </div>
@@ -146,7 +149,7 @@ export function RegistrationButton({
   if (regStatus === "waitlist") {
     return (
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <span className="inline-flex rounded-full bg-amber-100 px-4 py-2 text-sm font-semibold text-amber-900">
+        <span className="inline-flex items-center gap-2 rounded-full border border-amber-100 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-700">
           Bekleme Listesinde
           {position != null ? ` (${position}. sıra)` : ""}
         </span>
@@ -154,7 +157,7 @@ export function RegistrationButton({
           type="button"
           disabled={loading}
           onClick={() => void handleCancel()}
-          className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700 transition-colors duration-200 hover:border-primary hover:text-primary disabled:opacity-60"
+          className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-slate-200 px-5 py-3 text-sm font-semibold text-slate-600 transition-colors duration-200 hover:border-[#2563EB] hover:bg-slate-50 hover:text-[#2563EB] disabled:opacity-60"
         >
           {loading ? <Spinner className="border-slate-600" /> : null}
           Listeden Çık
@@ -168,7 +171,7 @@ export function RegistrationButton({
       type="button"
       disabled={loading}
       onClick={() => void handleRegister()}
-      className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-primaryDark disabled:opacity-60"
+      className={joinClass}
     >
       {loading ? <Spinner /> : null}
       Katıl

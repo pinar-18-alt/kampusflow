@@ -24,7 +24,7 @@ export function LogoImageWithFallback({
   if (failed) {
     return (
       <div
-        className={`flex shrink-0 items-center justify-center bg-[#00A693] font-bold text-white ${fallbackClassName}`}
+        className={`flex shrink-0 items-center justify-center bg-[#1E3A8A] font-bold text-white ${fallbackClassName}`}
         aria-hidden
       >
         {fallbackText}

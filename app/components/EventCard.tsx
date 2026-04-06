@@ -32,18 +32,10 @@ export function EventCard({ event }: { event: EventCardEvent }) {
   const percent = quotaPercent(event.registeredCount, event.quota);
   const barWidth = Math.min(percent, 100);
 
-  let chipClass =
-    "inline-flex rounded-full border px-3 py-1 text-xs font-medium bg-gray-50 text-gray-400 border-transparent";
-  if (daysLeft < 0) {
-    chipClass =
-      "inline-flex rounded-full border px-3 py-1 text-xs font-medium bg-gray-50 text-gray-400 border-transparent";
-  } else if (daysLeft <= 3) {
-    chipClass =
-      "inline-flex rounded-full border px-3 py-1 text-xs font-medium bg-red-50 text-red-500 border-red-100";
-  } else if (daysLeft <= 7) {
-    chipClass =
-      "inline-flex rounded-full border px-3 py-1 text-xs font-medium bg-orange-50 text-orange-500 border-orange-100";
-  }
+  const chipClass =
+    daysLeft < 0
+      ? "inline-flex rounded-lg border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-500"
+      : "inline-flex rounded-lg border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600";
 
   const chipText =
     daysLeft < 0
@@ -51,9 +43,9 @@ export function EventCard({ event }: { event: EventCardEvent }) {
       : `Son başvuru: ${daysLeft} gün kaldı`;
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+    <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-900/10">
       <div
-        className="h-1 shrink-0 bg-gradient-to-r from-[#00A693] to-[#005F73]"
+        className="h-1 shrink-0 bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6]"
         aria-hidden
       />
       <div className="flex items-center gap-2 px-5 pt-4">
@@ -63,26 +55,26 @@ export function EventCard({ event }: { event: EventCardEvent }) {
           imgClassName="h-5 w-5 object-contain"
           fallbackClassName="h-5 w-5 rounded text-[10px]"
         />
-        <span className="text-xs font-medium uppercase tracking-wide text-gray-400">
+        <span className="rounded-lg bg-blue-50 px-2 py-1 text-xs font-medium text-blue-600">
           {community}
         </span>
       </div>
       <div className="flex flex-1 flex-col p-5">
-        <h2 className="mb-2 line-clamp-1 text-lg font-bold leading-tight text-gray-800">
+        <h2 className="mb-2 line-clamp-1 text-lg font-bold leading-tight text-slate-800">
           {event.title}
         </h2>
-        <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-gray-500">
+        <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-slate-500">
           {event.description}
         </p>
 
         <div>
-          <div className="h-1.5 w-full rounded-full bg-gray-100">
+          <div className="h-1.5 w-full rounded-full bg-slate-100">
             <div
-              className="h-1.5 rounded-full bg-gradient-to-r from-[#00A693] to-[#007A6E] transition-all duration-300"
+              className="h-1.5 rounded-full bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] transition-all duration-300"
               style={{ width: `${barWidth}%` }}
             />
           </div>
-          <p className="mb-3 mt-1.5 text-xs text-gray-400">
+          <p className="mb-3 mt-1.5 text-xs text-slate-400">
             {event.registeredCount}/{event.quota} kişi · {waitlistCount} bekleme
           </p>
         </div>
@@ -99,7 +91,7 @@ export function EventCard({ event }: { event: EventCardEvent }) {
 
         <Link
           href={`/events/${event.id}`}
-          className="mt-4 w-full rounded-2xl bg-gradient-to-r from-[#00A693] to-[#007A6E] py-2.5 text-center text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:shadow-[#00A693]/25"
+          className="mt-4 w-full rounded-2xl bg-gradient-to-r from-[#1E3A8A] to-[#2563EB] py-2.5 text-center text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/25"
         >
           Detayları Gör
         </Link>

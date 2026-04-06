@@ -82,7 +82,7 @@ export function EventRowActions({ eventId, status }: Props) {
     <div className="flex flex-wrap items-center gap-2">
       <Link
         href={`/admin/events/${eventId}`}
-        className="font-medium text-[#00A693] hover:text-[#005F73] hover:underline"
+        className="font-medium text-[#2563EB] hover:text-[#1E3A8A] hover:underline"
       >
         Detay
       </Link>

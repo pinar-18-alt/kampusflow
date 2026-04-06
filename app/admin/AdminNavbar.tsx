@@ -14,18 +14,18 @@ export function AdminNavbar() {
     `rounded-xl px-3 py-2 text-sm font-medium transition-all ${
       active
         ? "bg-white/20 text-white"
-        : "text-teal-100 hover:bg-white/10 hover:text-white"
+        : "text-blue-200 hover:bg-white/10 hover:text-white"
     }`;
 
   return (
-    <header className="bg-gradient-to-r from-[#005F73] to-[#00A693] text-white shadow-md">
+    <header className="bg-gradient-to-r from-[#0F172A] via-[#1E3A8A] to-[#2563EB] text-white shadow-md">
       <nav
         className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-3"
         aria-label="Yönetim gezinmesi"
       >
         <Link
           href="/admin"
-          className="text-lg font-bold tracking-tight text-white transition-opacity hover:opacity-90"
+          className="text-lg font-black tracking-tight text-white transition-opacity hover:opacity-90"
         >
           KampüsFlow Admin
         </Link>
@@ -39,7 +39,7 @@ export function AdminNavbar() {
           <button
             type="button"
             onClick={() => signOut({ callbackUrl: "/login" })}
-            className="rounded-xl border border-white/30 bg-transparent px-3 py-2 text-sm font-medium text-teal-100 transition-all hover:bg-white/10 hover:text-white"
+            className="rounded-xl border border-white/30 bg-transparent px-3 py-2 text-sm font-medium text-blue-200 transition-all hover:bg-white/10 hover:text-white"
           >
             Çıkış Yap
           </button>

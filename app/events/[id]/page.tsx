@@ -102,19 +102,22 @@ export default async function EventDetailPage({
   const communityLogo = event.communityLogo ?? "/uybist-logo.png";
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-6 md:py-10">
+    <main className="min-h-screen bg-[#F8FAFF] px-4 py-6 md:py-10">
       <div className="mx-auto max-w-6xl">
         <Link
           href="/events"
-          className="mb-6 inline-flex items-center gap-1 text-sm font-semibold text-[#00A693] transition-colors hover:text-[#005F73]"
+          className="mb-6 inline-flex items-center gap-1 text-sm font-semibold text-[#2563EB] transition-colors hover:text-[#1E3A8A]"
         >
           ← Etkinliklere Dön
         </Link>
 
         <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_min(100%,380px)] lg:items-start lg:gap-10">
           <div className="min-w-0 space-y-6">
-            <div className="relative mb-6 overflow-hidden rounded-3xl bg-gradient-to-br from-[#00A693] via-[#007A6E] to-[#005F73] p-8 text-white">
-              <div className="absolute inset-0 bg-black/10" aria-hidden />
+            <div className="relative mb-6 overflow-hidden rounded-3xl bg-gradient-to-br from-[#0F172A] via-[#1E3A8A] to-[#2563EB] p-8 text-white">
+              <div
+                className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"
+                aria-hidden
+              />
               <div className="relative z-10">
                 <div className="mb-4 flex items-center gap-3">
                   <LogoImageWithFallback
@@ -124,7 +127,7 @@ export default async function EventDetailPage({
                     fallbackClassName="h-10 w-10 rounded-lg text-xs"
                   />
                   <div>
-                    <p className="text-xs text-teal-100">Düzenleyen</p>
+                    <p className="text-xs text-blue-200">Düzenleyen</p>
                     <p className="font-semibold text-white">{community}</p>
                   </div>
                 </div>
@@ -140,7 +143,7 @@ export default async function EventDetailPage({
                     <h1 className="text-2xl font-bold leading-tight md:text-3xl">
                       {event.title}
                     </h1>
-                    <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-teal-100 md:text-base">
+                    <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-blue-100 md:text-base">
                       {event.description}
                     </p>
                   </div>
@@ -149,57 +152,57 @@ export default async function EventDetailPage({
             </div>
 
             <div className="card p-6 shadow-sm">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-400">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-400">
                 Açıklama
               </h2>
-              <p className="mt-2 whitespace-pre-wrap leading-relaxed text-gray-700">
+              <p className="mt-2 whitespace-pre-wrap leading-relaxed text-[#0F172A]">
                 {event.description}
               </p>
             </div>
 
             <div className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
-              <div className="rounded-2xl border border-gray-50 bg-white p-4 text-center shadow-sm">
-                <p className="text-2xl font-bold text-[#00A693]">
+              <div className="rounded-2xl border border-slate-100 bg-white p-4 text-center shadow-sm">
+                <p className="text-2xl font-bold text-[#1E3A8A]">
                   {event.quota} kişi
                 </p>
-                <p className="mt-1 text-xs text-gray-400">Kontenjan</p>
+                <p className="mt-1 text-xs text-slate-400">Kontenjan</p>
               </div>
-              <div className="rounded-2xl border border-gray-50 bg-white p-4 text-center shadow-sm">
-                <p className="text-2xl font-bold text-[#00A693]">
+              <div className="rounded-2xl border border-slate-100 bg-white p-4 text-center shadow-sm">
+                <p className="text-2xl font-bold text-[#1E3A8A]">
                   {event.registeredCount}
                 </p>
-                <p className="mt-1 text-xs text-gray-400">Kayıtlı</p>
+                <p className="mt-1 text-xs text-slate-400">Kayıtlı</p>
               </div>
-              <div className="rounded-2xl border border-gray-50 bg-white p-4 text-center shadow-sm">
-                <p className="text-2xl font-bold text-[#00A693]">
+              <div className="rounded-2xl border border-slate-100 bg-white p-4 text-center shadow-sm">
+                <p className="text-2xl font-bold text-[#1E3A8A]">
                   {event.waitlistCount}
                 </p>
-                <p className="mt-1 text-xs text-gray-400">Bekleme</p>
+                <p className="mt-1 text-xs text-slate-400">Bekleme</p>
               </div>
-              <div className="rounded-2xl border border-gray-50 bg-white p-4 text-center shadow-sm">
-                <p className="break-words text-lg font-bold leading-tight text-[#00A693] md:text-2xl">
+              <div className="rounded-2xl border border-slate-100 bg-white p-4 text-center shadow-sm">
+                <p className="break-words text-lg font-bold leading-tight text-[#1E3A8A] md:text-2xl">
                   {deadlineLabel}
                 </p>
-                <p className="mt-1 text-xs text-gray-400">Son Başvuru</p>
+                <p className="mt-1 text-xs text-slate-400">Son Başvuru</p>
               </div>
             </div>
 
             <div className="card p-6 shadow-sm">
-              <h2 className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+              <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-400">
                 Doluluk
               </h2>
               <div className="mt-3">
-                <div className="mb-2 flex justify-between text-sm text-gray-600">
+                <div className="mb-2 flex justify-between text-sm text-slate-600">
                   <span>
                     {event.registeredCount} / {event.quota} kayıtlı
                   </span>
-                  <span className="font-semibold text-[#00A693]">
+                  <span className="font-semibold text-[#2563EB]">
                     {Math.round(pct)}%
                   </span>
                 </div>
-                <div className="h-3 w-full overflow-hidden rounded-full bg-gray-100">
+                <div className="h-3 w-full overflow-hidden rounded-full bg-slate-100">
                   <div
-                    className="h-3 rounded-full bg-gradient-to-r from-[#00A693] to-[#007A6E] transition-all duration-500"
+                    className="h-3 rounded-full bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] transition-all duration-500"
                     style={{ width: `${pct}%` }}
                   />
                 </div>
@@ -208,9 +211,9 @@ export default async function EventDetailPage({
           </div>
 
           <aside className="lg:sticky lg:top-24 lg:self-start">
-            <section className="rounded-3xl border border-gray-100 bg-white p-6 shadow-md">
-              <h2 className="text-lg font-bold text-[#005F73]">Kayıt</h2>
-              <p className="mt-1 text-sm text-gray-500">
+            <section className="rounded-3xl border border-slate-100 bg-white p-6 shadow-lg shadow-blue-900/5">
+              <h2 className="text-lg font-bold text-[#1E3A8A]">Kayıt</h2>
+              <p className="mt-1 text-sm text-slate-500">
                 Etkinliğe katılmak veya kaydını yönetmek için aşağıdaki seçenekleri
                 kullanın.
               </p>

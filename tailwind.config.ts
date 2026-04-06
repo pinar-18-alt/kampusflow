@@ -12,11 +12,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        /** Uludağ Üniversitesi teması */
-        primary: "#00A693",
-        primaryDark: "#007A6E",
-        primaryLight: "#E0F5F2",
-        accent: "#005F73",
+        /** KampüsFlow — lacivert / mavi premium tema */
+        primary: "#1E3A8A",
+        primaryDark: "#172554",
+        primaryMid: "#2563EB",
+        primaryLight: "#3B82F6",
+        accent: "#60A5FA",
+        surface: "#F8FAFF",
+        card: "#FFFFFF",
+        ink: "#0F172A",
+        inkMuted: "#475569",
+        line: "#E2E8F0",
       },
       fontFamily: {
         sans: ["var(--font-inter)", ...defaultTheme.fontFamily.sans],

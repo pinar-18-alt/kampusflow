@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 function statusBadge(status: string) {
   if (status === "active") {
     return (
-      <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">
+      <span className="rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-xs font-semibold text-blue-700">
         Aktif
       </span>
     );
@@ -29,7 +29,7 @@ export default async function AdminEventsPage() {
   return (
     <div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-2xl font-bold text-[#005F73] md:text-3xl">
+        <h1 className="text-2xl font-bold text-[#1E3A8A] md:text-3xl">
           Etkinlik Yönetimi
         </h1>
         <EventsHeader />

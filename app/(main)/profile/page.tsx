@@ -42,13 +42,13 @@ function statusBadge(reg: RegistrationWithEvent) {
   }
   if (reg.status === "confirmed") {
     return (
-      <span className="shrink-0 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">
+      <span className="shrink-0 rounded-full border border-green-100 bg-green-50 px-2.5 py-0.5 text-xs font-semibold text-green-700">
         Onaylı
       </span>
     );
   }
   return (
-    <span className="shrink-0 rounded-full bg-gray-200 px-2.5 py-0.5 text-xs font-semibold text-gray-700">
+    <span className="shrink-0 rounded-full bg-slate-200 px-2.5 py-0.5 text-xs font-semibold text-slate-700">
       {reg.status}
     </span>
   );
@@ -62,11 +62,11 @@ function RegistrationRow({
   header?: ReactNode;
 }) {
   return (
-    <div className="flex cursor-pointer flex-col gap-2 p-4 transition-colors hover:rounded-2xl hover:bg-gray-50 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex cursor-pointer flex-col gap-2 p-4 transition-colors hover:rounded-2xl hover:bg-slate-50 sm:flex-row sm:items-center sm:justify-between">
       <div className="min-w-0 flex-1">
         {header}
-        <p className="font-semibold text-gray-900">{reg.event.title}</p>
-        <p className="mt-0.5 text-sm text-gray-500">
+        <p className="font-semibold text-[#0F172A]">{reg.event.title}</p>
+        <p className="mt-0.5 text-sm text-slate-500">
           Son başvuru: {formatDeadline(reg.event.deadline)}
         </p>
       </div>
@@ -74,7 +74,7 @@ function RegistrationRow({
         {statusBadge(reg)}
         <Link
           href={`/events/${reg.event.id}`}
-          className="text-sm font-semibold text-[#00A693] hover:text-[#005F73]"
+          className="text-sm font-semibold text-[#2563EB] hover:text-[#1E3A8A]"
         >
           Etkinliğe Git →
         </Link>
@@ -85,11 +85,11 @@ function RegistrationRow({
 
 function EmptyState({ icon, message }: { icon: string; message: string }) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-gray-50/80 px-6 py-12 text-center">
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-slate-50/80 px-6 py-12 text-center">
       <span className="mb-3 text-4xl" aria-hidden>
         {icon}
       </span>
-      <p className="text-sm font-medium text-gray-600">{message}</p>
+      <p className="text-sm font-medium text-slate-600">{message}</p>
     </div>
   );
 }
@@ -110,10 +110,10 @@ function Section({
   emptyIcon: string;
 }) {
   return (
-    <section className="card mb-4 p-6 shadow-sm">
-      <h2 className="mb-4 border-b border-gray-100 pb-3 text-lg font-semibold text-gray-800">
+    <section className="mb-4 rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
+      <h2 className="mb-4 border-b border-slate-100 pb-3 text-lg font-semibold text-[#0F172A]">
         {title}{" "}
-        <span className="ml-2 inline-flex rounded-full bg-[#E0F5F2] px-2 py-0.5 text-xs font-semibold text-[#00A693]">
+        <span className="ml-2 inline-flex rounded-full bg-blue-50 px-2 py-0.5 text-xs font-semibold text-blue-600">
           {count}
         </span>
       </h2>
@@ -124,7 +124,7 @@ function Section({
           {items.map((reg) => (
             <li
               key={reg.id}
-              className="border-b border-gray-50 last:border-b-0"
+              className="border-b border-slate-50 last:border-b-0"
             >
               {renderItem(reg)}
             </li>
@@ -175,10 +175,14 @@ export default async function ProfilePage() {
   const isAdmin = user.role === "admin";
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-8 md:py-10">
+    <main className="min-h-screen bg-[#F8FAFF] px-4 py-8 md:py-10">
       <div className="mx-auto max-w-3xl">
-        <div className="mb-6 rounded-3xl bg-gradient-to-br from-[#00A693] to-[#005F73] p-8 text-white">
-          <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:text-left">
+        <div className="relative mb-6 overflow-hidden rounded-3xl bg-gradient-to-br from-[#0F172A] via-[#1E3A8A] to-[#2563EB] p-8 text-white">
+          <div
+            className="absolute right-0 top-0 h-48 w-48 -translate-y-1/2 translate-x-1/4 rounded-full bg-white/5"
+            aria-hidden
+          />
+          <div className="relative z-10 flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:text-left">
             <div
               className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-white/20 text-2xl font-bold text-white ring-4 ring-white/30 backdrop-blur-sm"
               aria-hidden
@@ -189,9 +193,9 @@ export default async function ProfilePage() {
               <h1 className="text-2xl font-bold text-white">
                 {user.name ?? "İsimsiz kullanıcı"}
               </h1>
-              <p className="mt-1 text-teal-100">{user.email}</p>
+              <p className="mt-1 text-blue-200">{user.email}</p>
               {user.faculty ? (
-                <p className="mt-2 text-sm font-medium text-teal-200">
+                <p className="mt-2 text-sm font-medium text-blue-100">
                   {user.faculty}
                 </p>
               ) : null}
@@ -201,7 +205,7 @@ export default async function ProfilePage() {
                     Yönetici
                   </span>
                 ) : (
-                  <span className="inline-flex rounded-full bg-white/15 px-3 py-1 text-sm font-semibold text-teal-100">
+                  <span className="inline-flex rounded-full bg-white/15 px-3 py-1 text-sm font-semibold text-blue-100">
                     Öğrenci
                   </span>
                 )}
@@ -210,8 +214,8 @@ export default async function ProfilePage() {
           </div>
         </div>
 
-        <h2 className="mb-2 text-xl font-bold text-[#005F73]">Etkinliklerim</h2>
-        <p className="mb-6 text-sm text-gray-500">
+        <h2 className="mb-2 text-xl font-bold text-[#1E3A8A]">Etkinliklerim</h2>
+        <p className="mb-6 text-sm text-slate-500">
           Kayıtlı olduğunuz ve beklediğiniz etkinlikler
         </p>
 

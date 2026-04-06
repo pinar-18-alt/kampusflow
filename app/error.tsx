@@ -14,9 +14,9 @@ export default function Error({
   }, [error]);
 
   return (
-    <main className="flex min-h-[60vh] flex-col items-center justify-center bg-gradient-to-br from-red-50/80 via-white to-[#00A693]/5 px-4 py-16">
+    <main className="flex min-h-[60vh] flex-col items-center justify-center bg-gradient-to-br from-red-50/80 via-white to-blue-50/40 px-4 py-16">
       <div className="max-w-md text-center">
-        <h1 className="text-2xl font-bold text-[#005F73] md:text-3xl">
+        <h1 className="text-2xl font-bold text-[#1E3A8A] md:text-3xl">
           Bir hata oluştu
         </h1>
         <p className="mt-4 text-gray-600">
@@ -30,7 +30,7 @@ export default function Error({
         <button
           type="button"
           onClick={() => reset()}
-          className="mt-8 rounded-xl bg-[#00A693] px-6 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-[#007A6E]"
+          className="mt-8 rounded-xl bg-gradient-to-r from-[#1E3A8A] to-[#2563EB] px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg hover:shadow-blue-500/25"
         >
           Tekrar dene
         </button>

@@ -15,19 +15,23 @@ export default async function EventsPage() {
   const events = await fetchEvents();
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="relative overflow-hidden bg-gradient-to-r from-[#00A693] via-[#008F82] to-[#005F73] px-6 py-12">
+    <main className="min-h-screen bg-[#F8FAFF]">
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#0F172A] via-[#1E3A8A] to-[#2563EB] px-6 py-16">
         <div
-          className="absolute right-0 top-0 h-64 w-64 -translate-y-32 translate-x-32 rounded-full bg-white/5"
+          className="absolute right-0 top-0 h-[500px] w-[500px] -translate-y-1/2 translate-x-1/4 animate-pulse rounded-full bg-blue-500/10"
           aria-hidden
         />
         <div
-          className="absolute bottom-0 left-0 h-48 w-48 -translate-x-24 translate-y-24 rounded-full bg-white/5"
+          className="absolute bottom-0 left-1/4 h-64 w-64 translate-y-1/2 rounded-full bg-blue-400/10"
+          aria-hidden
+        />
+        <div
+          className="absolute left-0 top-1/2 h-32 w-32 -translate-x-1/2 rounded-full bg-white/5"
           aria-hidden
         />
         <div className="relative z-10 mx-auto max-w-7xl">
-          <h1 className="text-4xl font-bold text-white">Etkinlikler</h1>
-          <p className="mt-2 text-teal-100">
+          <h1 className="text-5xl font-black text-white">Etkinlikler</h1>
+          <p className="mt-2 text-blue-200">
             Kampüs etkinliklerini keşfet ve katıl
           </p>
         </div>
@@ -35,8 +39,8 @@ export default async function EventsPage() {
 
       <div className="mx-auto max-w-7xl p-6">
         {events.length === 0 ? (
-          <div className="rounded-3xl border border-dashed border-[#00A693]/30 bg-white py-16 text-center shadow-sm">
-            <p className="text-lg font-medium text-gray-700">
+          <div className="rounded-3xl border border-dashed border-blue-200/60 bg-white py-16 text-center shadow-sm">
+            <p className="text-lg font-medium text-slate-700">
               Henüz etkinlik yok
             </p>
           </div>

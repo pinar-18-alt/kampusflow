@@ -119,19 +119,19 @@ export function CreateEventModal({ open, onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby="create-event-title"
       onClick={onClose}
     >
       <div
-        className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl bg-white p-8 shadow-xl"
+        className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl bg-white p-8 shadow-2xl shadow-blue-900/20"
         onClick={(e) => e.stopPropagation()}
       >
         <h2
           id="create-event-title"
-          className="text-xl font-bold text-[#005F73]"
+          className="text-xl font-bold text-[#1E3A8A]"
         >
           Yeni Etkinlik
         </h2>
@@ -154,7 +154,7 @@ export function CreateEventModal({ open, onClose }: Props) {
                 id="evt-community"
                 value={communityName}
                 onChange={(e) => setCommunityName(e.target.value)}
-                className="w-full rounded-xl border-2 border-slate-200 p-3 text-slate-900 outline-none transition-colors focus:border-[#00A693]"
+                className="w-full rounded-xl border-2 border-slate-200 p-3 text-slate-900 outline-none transition-colors focus:border-[#2563EB]"
               >
                 {COMMUNITY_OPTIONS.map((o) => (
                   <option key={o.name} value={o.name}>
@@ -177,7 +177,7 @@ export function CreateEventModal({ open, onClose }: Props) {
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full rounded-xl border-2 border-slate-200 p-3 text-slate-900 outline-none transition-colors focus:border-[#00A693]"
+              className="w-full rounded-xl border-2 border-slate-200 p-3 text-slate-900 outline-none transition-colors focus:border-[#2563EB]"
             />
           </div>
           <div>
@@ -193,7 +193,7 @@ export function CreateEventModal({ open, onClose }: Props) {
               rows={4}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full resize-y rounded-xl border-2 border-slate-200 p-3 text-slate-900 outline-none transition-colors focus:border-[#00A693]"
+              className="w-full resize-y rounded-xl border-2 border-slate-200 p-3 text-slate-900 outline-none transition-colors focus:border-[#2563EB]"
             />
           </div>
           <div>
@@ -210,7 +210,7 @@ export function CreateEventModal({ open, onClose }: Props) {
               required
               value={quota}
               onChange={(e) => setQuota(e.target.value)}
-              className="w-full rounded-xl border-2 border-slate-200 p-3 text-slate-900 outline-none transition-colors focus:border-[#00A693]"
+              className="w-full rounded-xl border-2 border-slate-200 p-3 text-slate-900 outline-none transition-colors focus:border-[#2563EB]"
             />
           </div>
           <div>
@@ -226,7 +226,7 @@ export function CreateEventModal({ open, onClose }: Props) {
               required
               value={deadlineLocal}
               onChange={(e) => setDeadlineLocal(e.target.value)}
-              className="w-full rounded-xl border-2 border-slate-200 p-3 text-slate-900 outline-none transition-colors focus:border-[#00A693]"
+              className="w-full rounded-xl border-2 border-slate-200 p-3 text-slate-900 outline-none transition-colors focus:border-[#2563EB]"
             />
           </div>
           <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end">
@@ -234,14 +234,14 @@ export function CreateEventModal({ open, onClose }: Props) {
               type="button"
               disabled={loading}
               onClick={onClose}
-              className="rounded-xl border-2 border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-50"
+              className="rounded-xl border-2 border-slate-200 px-5 py-3 text-sm font-semibold text-slate-500 transition-colors hover:bg-slate-50 disabled:opacity-50"
             >
               İptal
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="rounded-xl bg-[#00A693] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#007A6E] disabled:opacity-60"
+              className="rounded-xl bg-gradient-to-r from-[#1E3A8A] to-[#2563EB] px-5 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:shadow-md hover:shadow-blue-500/20 disabled:opacity-60"
             >
               {loading ? "Oluşturuluyor…" : "Oluştur"}
             </button>
