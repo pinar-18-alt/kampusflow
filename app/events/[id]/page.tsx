@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { format } from "date-fns";
 import { tr } from "date-fns/locale/tr";
 import { auth } from "@/lib/auth";
+import { LogoImageWithFallback } from "@/app/components/LogoImageWithFallback";
 import { RegistrationButton } from "./RegistrationButton";
 import { getInternalBaseUrl } from "@/lib/internal-url";
 
@@ -12,6 +13,8 @@ type ApiEvent = {
   id: string;
   title: string;
   description: string;
+  community?: string;
+  communityLogo?: string;
   quota: number;
   registeredCount: number;
   waitlistCount: number;
@@ -95,123 +98,134 @@ export default async function EventDetailPage({
   });
 
   const pct = quotaPercent(event.registeredCount, event.quota);
+  const community = event.community ?? "UYBİST";
+  const communityLogo = event.communityLogo ?? "/uybist-logo.png";
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-6 md:py-10">
-      <Link
-        href="/events"
-        className="mb-6 inline-flex items-center gap-1 text-sm font-semibold text-[#00A693] transition-colors hover:text-[#005F73]"
-      >
-        ← Etkinliklere Dön
-      </Link>
+    <main className="min-h-screen bg-gray-50 px-4 py-6 md:py-10">
+      <div className="mx-auto max-w-6xl">
+        <Link
+          href="/events"
+          className="mb-6 inline-flex items-center gap-1 text-sm font-semibold text-[#00A693] transition-colors hover:text-[#005F73]"
+        >
+          ← Etkinliklere Dön
+        </Link>
 
-      <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_min(100%,380px)] lg:items-start lg:gap-10">
-        <div className="min-w-0 space-y-6">
-          <div className="mb-6 rounded-2xl bg-gradient-to-r from-[#00A693] to-[#005F73] p-8 text-white shadow-lg">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div className="min-w-0 flex-1">
-                <div className="mb-3">
-                  {heroStatusBadge(
-                    event.status,
-                    event.registeredCount,
-                    event.quota
-                  )}
+        <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_min(100%,380px)] lg:items-start lg:gap-10">
+          <div className="min-w-0 space-y-6">
+            <div className="relative mb-6 overflow-hidden rounded-3xl bg-gradient-to-br from-[#00A693] via-[#007A6E] to-[#005F73] p-8 text-white">
+              <div className="absolute inset-0 bg-black/10" aria-hidden />
+              <div className="relative z-10">
+                <div className="mb-4 flex items-center gap-3">
+                  <LogoImageWithFallback
+                    src={communityLogo}
+                    alt={community}
+                    imgClassName="h-10 w-10 rounded-lg bg-white/20 object-contain p-1"
+                    fallbackClassName="h-10 w-10 rounded-lg text-xs"
+                  />
+                  <div>
+                    <p className="text-xs text-teal-100">Düzenleyen</p>
+                    <p className="font-semibold text-white">{community}</p>
+                  </div>
                 </div>
-                <h1 className="text-2xl font-bold leading-tight md:text-3xl">
-                  {event.title}
-                </h1>
-                <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-teal-100 md:text-base">
-                  {event.description}
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="min-w-0 flex-1">
+                    <div className="mb-3">
+                      {heroStatusBadge(
+                        event.status,
+                        event.registeredCount,
+                        event.quota
+                      )}
+                    </div>
+                    <h1 className="text-2xl font-bold leading-tight md:text-3xl">
+                      {event.title}
+                    </h1>
+                    <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-teal-100 md:text-base">
+                      {event.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="card p-6 shadow-sm">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-400">
+                Açıklama
+              </h2>
+              <p className="mt-2 whitespace-pre-wrap leading-relaxed text-gray-700">
+                {event.description}
+              </p>
+            </div>
+
+            <div className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+              <div className="rounded-2xl border border-gray-50 bg-white p-4 text-center shadow-sm">
+                <p className="text-2xl font-bold text-[#00A693]">
+                  {event.quota} kişi
                 </p>
+                <p className="mt-1 text-xs text-gray-400">Kontenjan</p>
+              </div>
+              <div className="rounded-2xl border border-gray-50 bg-white p-4 text-center shadow-sm">
+                <p className="text-2xl font-bold text-[#00A693]">
+                  {event.registeredCount}
+                </p>
+                <p className="mt-1 text-xs text-gray-400">Kayıtlı</p>
+              </div>
+              <div className="rounded-2xl border border-gray-50 bg-white p-4 text-center shadow-sm">
+                <p className="text-2xl font-bold text-[#00A693]">
+                  {event.waitlistCount}
+                </p>
+                <p className="mt-1 text-xs text-gray-400">Bekleme</p>
+              </div>
+              <div className="rounded-2xl border border-gray-50 bg-white p-4 text-center shadow-sm">
+                <p className="break-words text-lg font-bold leading-tight text-[#00A693] md:text-2xl">
+                  {deadlineLabel}
+                </p>
+                <p className="mt-1 text-xs text-gray-400">Son Başvuru</p>
+              </div>
+            </div>
+
+            <div className="card p-6 shadow-sm">
+              <h2 className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                Doluluk
+              </h2>
+              <div className="mt-3">
+                <div className="mb-2 flex justify-between text-sm text-gray-600">
+                  <span>
+                    {event.registeredCount} / {event.quota} kayıtlı
+                  </span>
+                  <span className="font-semibold text-[#00A693]">
+                    {Math.round(pct)}%
+                  </span>
+                </div>
+                <div className="h-3 w-full overflow-hidden rounded-full bg-gray-100">
+                  <div
+                    className="h-3 rounded-full bg-gradient-to-r from-[#00A693] to-[#007A6E] transition-all duration-500"
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-400">
-              Açıklama
-            </h2>
-            <p className="mt-2 whitespace-pre-wrap text-gray-700 leading-relaxed">
-              {event.description}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
-              <p className="text-xs uppercase tracking-wide text-gray-400">
-                Kontenjan
+          <aside className="lg:sticky lg:top-24 lg:self-start">
+            <section className="rounded-3xl border border-gray-100 bg-white p-6 shadow-md">
+              <h2 className="text-lg font-bold text-[#005F73]">Kayıt</h2>
+              <p className="mt-1 text-sm text-gray-500">
+                Etkinliğe katılmak veya kaydını yönetmek için aşağıdaki seçenekleri
+                kullanın.
               </p>
-              <p className="mt-1 text-lg font-bold text-gray-900">
-                {event.quota} kişi
-              </p>
-            </div>
-            <div className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
-              <p className="text-xs uppercase tracking-wide text-gray-400">
-                Kayıtlı
-              </p>
-              <p className="mt-1 text-lg font-bold text-gray-900">
-                {event.registeredCount}
-              </p>
-            </div>
-            <div className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
-              <p className="text-xs uppercase tracking-wide text-gray-400">
-                Bekleme
-              </p>
-              <p className="mt-1 text-lg font-bold text-gray-900">
-                {event.waitlistCount}
-              </p>
-            </div>
-            <div className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
-              <p className="text-xs uppercase tracking-wide text-gray-400">
-                Son Başvuru
-              </p>
-              <p className="mt-1 text-lg font-bold text-gray-900">
-                {deadlineLabel}
-              </p>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-            <h2 className="text-xs font-semibold uppercase tracking-wide text-gray-400">
-              Doluluk
-            </h2>
-            <div className="mt-3">
-              <div className="mb-2 flex justify-between text-sm text-gray-600">
-                <span>
-                  {event.registeredCount} / {event.quota} kayıtlı
-                </span>
-                <span className="font-semibold text-[#00A693]">
-                  {Math.round(pct)}%
-                </span>
-              </div>
-              <div className="h-3 w-full overflow-hidden rounded-full bg-gray-100">
-                <div
-                  className="h-3 rounded-full bg-[#00A693] transition-all duration-500"
-                  style={{ width: `${pct}%` }}
+              <div className="mt-5">
+                <RegistrationButton
+                  eventId={event.id}
+                  initialStatus={initialStatus}
+                  waitlistPosition={waitlistPosition}
+                  eventStatus={event.status}
+                  deadline={event.deadline}
                 />
               </div>
-            </div>
-          </div>
+            </section>
+          </aside>
         </div>
-
-        <aside className="lg:sticky lg:top-24 lg:self-start">
-          <section className="rounded-2xl border border-gray-100 bg-white p-6 shadow-md">
-            <h2 className="text-lg font-bold text-[#005F73]">Kayıt</h2>
-            <p className="mt-1 text-sm text-gray-500">
-              Etkinliğe katılmak veya kaydını yönetmek için aşağıdaki seçenekleri
-              kullanın.
-            </p>
-            <div className="mt-5">
-              <RegistrationButton
-                eventId={event.id}
-                initialStatus={initialStatus}
-                waitlistPosition={waitlistPosition}
-                eventStatus={event.status}
-                deadline={event.deadline}
-              />
-            </div>
-          </section>
-        </aside>
       </div>
     </main>
   );

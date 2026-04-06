@@ -5,24 +5,17 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-const FACULTIES = [
-  "Mühendislik",
-  "Tıp",
-  "Eczacılık",
-  "Hukuk",
-  "İktisadi İdari Bilimler",
-  "Eğitim",
-  "Fen Edebiyat",
-  "Ziraat",
-  "Veteriner",
-  "Güzel Sanatlar",
-  "İlahiyat",
-] as const;
+const FACULTIES = ["İnegöl İşletme Fakültesi"] as const;
 
 const ULUDAG_SUFFIX = "@uludag.edu.tr";
 
 const inputClass =
-  "w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-800 outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-[#00A693]";
+  "w-full rounded-2xl border-2 border-gray-100 bg-gray-50 px-4 py-3.5 text-gray-800 outline-none transition-all duration-200 focus:border-[#00A693] focus:bg-white focus:ring-4 focus:ring-[#00A693]/10";
+
+const labelClass = "mb-1.5 block text-sm font-medium text-gray-700";
+
+const submitClass =
+  "flex w-full transform items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#00A693] to-[#007A6E] py-3.5 font-semibold text-white shadow-lg shadow-[#00A693]/25 transition-all duration-200 hover:-translate-y-0.5 hover:from-[#007A6E] hover:to-[#005F73] hover:shadow-xl hover:shadow-[#00A693]/30 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:shadow-lg";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -95,10 +88,7 @@ export default function RegisterPage() {
       </h2>
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label
-            htmlFor="name"
-            className="mb-1.5 block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="name" className={labelClass}>
             Ad Soyad
           </label>
           <input
@@ -113,10 +103,7 @@ export default function RegisterPage() {
           />
         </div>
         <div>
-          <label
-            htmlFor="email"
-            className="mb-1.5 block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="email" className={labelClass}>
             E-posta (@uludag.edu.tr)
           </label>
           <input
@@ -132,10 +119,7 @@ export default function RegisterPage() {
           />
         </div>
         <div>
-          <label
-            htmlFor="faculty"
-            className="mb-1.5 block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="faculty" className={labelClass}>
             Fakülte
           </label>
           <select
@@ -146,7 +130,7 @@ export default function RegisterPage() {
             onChange={(e) => setFaculty(e.target.value)}
             className={inputClass}
           >
-            <option value="">Fakülte seçiniz</option>
+            <option value="">Fakültenizi seçin</option>
             {FACULTIES.map((f) => (
               <option key={f} value={f}>
                 {f}
@@ -155,10 +139,7 @@ export default function RegisterPage() {
           </select>
         </div>
         <div>
-          <label
-            htmlFor="password"
-            className="mb-1.5 block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="password" className={labelClass}>
             Şifre
           </label>
           <input
@@ -173,10 +154,7 @@ export default function RegisterPage() {
           />
         </div>
         <div>
-          <label
-            htmlFor="passwordAgain"
-            className="mb-1.5 block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="passwordAgain" className={labelClass}>
             Şifre Tekrar
           </label>
           <input
@@ -195,11 +173,7 @@ export default function RegisterPage() {
             {error}
           </p>
         ) : null}
-        <button
-          type="submit"
-          disabled={loading}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#00A693] py-3 font-semibold text-white transition-colors hover:bg-[#007A6E] disabled:cursor-not-allowed disabled:opacity-70"
-        >
+        <button type="submit" disabled={loading} className={submitClass}>
           {loading ? (
             <>
               <span

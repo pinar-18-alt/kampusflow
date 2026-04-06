@@ -3,6 +3,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { LogoImageWithFallback } from "@/app/components/LogoImageWithFallback";
+
+const COMMUNITY_OPTIONS = [
+  { name: "UYBİST", logo: "/uybist-logo.png" },
+  { name: "Diğer Topluluk", logo: "/uludag-logo.png" },
+] as const;
 
 type Props = {
   open: boolean;
@@ -25,7 +31,14 @@ export function CreateEventModal({ open, onClose }: Props) {
   const [description, setDescription] = useState("");
   const [quota, setQuota] = useState("50");
   const [deadlineLocal, setDeadlineLocal] = useState("");
+  const [communityName, setCommunityName] = useState<string>(
+    COMMUNITY_OPTIONS[0].name
+  );
   const [loading, setLoading] = useState(false);
+
+  const selectedCommunity =
+    COMMUNITY_OPTIONS.find((o) => o.name === communityName) ??
+    COMMUNITY_OPTIONS[0];
 
   useEffect(() => {
     if (open) {
@@ -41,6 +54,7 @@ export function CreateEventModal({ open, onClose }: Props) {
       setTitle("");
       setDescription("");
       setQuota("50");
+      setCommunityName(COMMUNITY_OPTIONS[0].name);
       setLoading(false);
     }
   }, [open]);
@@ -73,6 +87,8 @@ export function CreateEventModal({ open, onClose }: Props) {
           description: description.trim(),
           quota: quotaNum,
           deadline: deadline.toISOString(),
+          community: selectedCommunity.name,
+          communityLogo: selectedCommunity.logo,
         }),
       });
 
@@ -120,6 +136,34 @@ export function CreateEventModal({ open, onClose }: Props) {
           Yeni Etkinlik
         </h2>
         <form onSubmit={(e) => void handleSubmit(e)} className="mt-6 space-y-4">
+          <div>
+            <label
+              htmlFor="evt-community"
+              className="mb-1 block text-sm font-medium text-slate-700"
+            >
+              Topluluk
+            </label>
+            <div className="flex items-center gap-3">
+              <LogoImageWithFallback
+                src={selectedCommunity.logo}
+                alt={selectedCommunity.name}
+                imgClassName="h-8 w-8 shrink-0 rounded object-contain"
+                fallbackClassName="h-8 w-8 rounded-lg text-xs"
+              />
+              <select
+                id="evt-community"
+                value={communityName}
+                onChange={(e) => setCommunityName(e.target.value)}
+                className="w-full rounded-xl border-2 border-slate-200 p-3 text-slate-900 outline-none transition-colors focus:border-[#00A693]"
+              >
+                {COMMUNITY_OPTIONS.map((o) => (
+                  <option key={o.name} value={o.name}>
+                    {o.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
           <div>
             <label
               htmlFor="evt-title"

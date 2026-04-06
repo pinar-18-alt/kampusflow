@@ -22,6 +22,8 @@ model Event {
   id              String    @id @default(cuid())
   title           String
   description     String
+  community       String    @default("UYBİST")
+  communityLogo   String    @default("/uybist-logo.png")
   quota           Int
   registeredCount Int       @default(0)
   waitlistCount   Int       @default(0)

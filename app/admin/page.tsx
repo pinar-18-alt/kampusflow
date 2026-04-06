@@ -5,8 +5,10 @@ export const dynamic = "force-dynamic";
 
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-2xl border border-gray-50 bg-white p-5 shadow-sm">
-      <p className="text-4xl font-bold text-[#00A693]">{value}</p>
+    <div className="rounded-3xl border border-gray-50 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
+      <p className="bg-gradient-to-r from-[#00A693] to-[#005F73] bg-clip-text text-4xl font-bold text-transparent">
+        {value}
+      </p>
       <p className="mt-1 text-sm text-gray-400">{label}</p>
     </div>
   );
@@ -48,7 +50,7 @@ export default async function AdminDashboardPage() {
   ]);
 
   return (
-    <div>
+    <div className="min-h-screen">
       <h1 className="text-2xl font-bold text-[#005F73] md:text-3xl">
         Dashboard
       </h1>
@@ -64,9 +66,9 @@ export default async function AdminDashboardPage() {
 
       <section className="mt-12">
         <h2 className="text-xl font-bold text-[#005F73]">Son Etkinlikler</h2>
-        <div className="mt-4 overflow-x-auto rounded-2xl border border-gray-100 bg-white shadow-sm">
+        <div className="mt-4 overflow-hidden rounded-3xl border border-gray-50 bg-white shadow-sm">
           <table className="min-w-full text-left text-sm">
-            <thead className="border-b border-gray-200 bg-gray-50 text-xs font-semibold uppercase tracking-wide text-gray-600">
+            <thead className="bg-gray-50 text-xs uppercase tracking-wider text-gray-400">
               <tr>
                 <th className="px-4 py-3">Etkinlik Adı</th>
                 <th className="px-4 py-3">Kontenjan</th>
@@ -87,10 +89,10 @@ export default async function AdminDashboardPage() {
                   </td>
                 </tr>
               ) : (
-                recentEvents.map((ev, i) => (
+                recentEvents.map((ev) => (
                   <tr
                     key={ev.id}
-                    className={i % 2 === 1 ? "bg-gray-50" : "bg-white"}
+                    className="transition-colors hover:bg-teal-50/30"
                   >
                     <td className="px-4 py-3 font-medium text-gray-900">
                       {ev.title}

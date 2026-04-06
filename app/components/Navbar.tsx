@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 
 function getInitials(name: string | null | undefined, email: string) {
@@ -19,25 +20,43 @@ function getInitials(name: string | null | undefined, email: string) {
   return local.slice(0, 2).toUpperCase();
 }
 
+function desktopNavLinkClass(active: boolean) {
+  const base =
+    "relative px-3 py-2 text-sm font-medium transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-[#00A693] after:transition-all after:duration-200";
+  if (active) {
+    return `${base} text-[#00A693] after:w-full`;
+  }
+  return `${base} text-gray-500 after:w-0 hover:text-[#00A693] hover:after:w-full`;
+}
+
 export function Navbar() {
+  const pathname = usePathname();
   const { data: session, status } = useSession();
   const [open, setOpen] = useState(false);
 
   const loggedIn = status === "authenticated" && session?.user;
   const isAdmin = session?.user?.role === "admin";
 
-  const linkClass =
-    "rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors hover:text-[#00A693]";
+  const eventsActive =
+    pathname === "/events" || pathname.startsWith("/events/");
+  const profileActive = pathname.startsWith("/profile");
+  const adminActive = pathname.startsWith("/admin");
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-gray-100 bg-white shadow-sm">
+    <nav className="sticky top-0 z-50 border-b border-gray-100 bg-white/80 shadow-sm backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
         <Link
           href={loggedIn ? "/events" : "/login"}
-          className="text-xl font-bold text-[#00A693]"
+          className="flex items-center gap-2 text-lg font-bold text-[#00A693]"
           onClick={() => setOpen(false)}
         >
-          KampüsFlow
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/uludag-logo.png"
+            alt="Uludağ Üniversitesi"
+            className="h-8 w-8 object-contain"
+          />
+          <span>KampüsFlow</span>
         </Link>
 
         <button
@@ -53,20 +72,29 @@ export function Navbar() {
         <div className="hidden items-center gap-1 lg:flex">
           {loggedIn ? (
             <>
-              <Link href="/events" className={linkClass}>
+              <Link
+                href="/events"
+                className={desktopNavLinkClass(eventsActive)}
+              >
                 Etkinlikler
               </Link>
-              <Link href="/profile" className={linkClass}>
+              <Link
+                href="/profile"
+                className={desktopNavLinkClass(profileActive)}
+              >
                 Profilim
               </Link>
               {isAdmin ? (
-                <Link href="/admin" className={linkClass}>
+                <Link
+                  href="/admin"
+                  className={desktopNavLinkClass(adminActive)}
+                >
                   Admin Panel
                 </Link>
               ) : null}
               <div className="ml-4 flex items-center gap-3 border-l border-gray-200 pl-4">
                 <div
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#00A693] text-xs font-semibold text-white"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#00A693] to-[#005F73] text-sm font-bold text-white ring-2 ring-[#00A693]/20"
                   aria-hidden
                 >
                   {getInitials(
@@ -79,8 +107,8 @@ export function Navbar() {
                 </span>
                 <button
                   type="button"
-                  onClick={() => void signOut({ callbackUrl: "/login" })}
-                  className="rounded-lg border border-gray-200 px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900"
+                  onClick={() => signOut({ callbackUrl: "/login" })}
+                  className="text-sm text-gray-400 transition-colors hover:text-red-400"
                 >
                   Çıkış Yap
                 </button>
@@ -89,7 +117,7 @@ export function Navbar() {
           ) : (
             <Link
               href="/login"
-              className="rounded-xl bg-[#00A693] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#007A6E]"
+              className="btn-primary inline-block text-sm no-underline"
             >
               Giriş Yap
             </Link>
@@ -98,12 +126,12 @@ export function Navbar() {
       </div>
 
       {open ? (
-        <div className="border-t border-gray-100 bg-white px-4 py-3 shadow-md lg:hidden">
+        <div className="border-t border-gray-100 bg-white/95 px-4 py-3 shadow-md backdrop-blur-md lg:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-1">
             {loggedIn ? (
               <>
                 <div className="mb-2 flex items-center gap-3 border-b border-gray-100 pb-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#00A693] text-xs font-semibold text-white">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#00A693] to-[#005F73] text-sm font-bold text-white ring-2 ring-[#00A693]/20">
                     {getInitials(
                       session.user?.name,
                       session.user?.email ?? ""
@@ -120,14 +148,22 @@ export function Navbar() {
                 </div>
                 <Link
                   href="/events"
-                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-[#00A693]"
+                  className={`rounded-lg px-3 py-2.5 text-sm font-medium ${
+                    eventsActive
+                      ? "text-[#00A693]"
+                      : "text-gray-500 hover:bg-gray-50 hover:text-[#00A693]"
+                  }`}
                   onClick={() => setOpen(false)}
                 >
                   Etkinlikler
                 </Link>
                 <Link
                   href="/profile"
-                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-[#00A693]"
+                  className={`rounded-lg px-3 py-2.5 text-sm font-medium ${
+                    profileActive
+                      ? "text-[#00A693]"
+                      : "text-gray-500 hover:bg-gray-50 hover:text-[#00A693]"
+                  }`}
                   onClick={() => setOpen(false)}
                 >
                   Profilim
@@ -135,7 +171,11 @@ export function Navbar() {
                 {isAdmin ? (
                   <Link
                     href="/admin"
-                    className="rounded-lg px-3 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-[#00A693]"
+                    className={`rounded-lg px-3 py-2.5 text-sm font-medium ${
+                      adminActive
+                        ? "text-[#00A693]"
+                        : "text-gray-500 hover:bg-gray-50 hover:text-[#00A693]"
+                    }`}
                     onClick={() => setOpen(false)}
                   >
                     Admin Panel
@@ -143,10 +183,10 @@ export function Navbar() {
                 ) : null}
                 <button
                   type="button"
-                  className="mt-1 rounded-lg border border-gray-200 px-3 py-2.5 text-left text-sm font-medium text-gray-600 hover:bg-gray-50"
+                  className="mt-1 px-3 py-2.5 text-left text-sm text-gray-400 transition-colors hover:text-red-400"
                   onClick={() => {
                     setOpen(false);
-                    void signOut({ callbackUrl: "/login" });
+                    signOut({ callbackUrl: "/login" });
                   }}
                 >
                   Çıkış Yap
@@ -155,7 +195,7 @@ export function Navbar() {
             ) : (
               <Link
                 href="/login"
-                className="rounded-xl bg-[#00A693] py-3 text-center text-sm font-semibold text-white"
+                className="btn-primary block w-full py-3 text-center text-sm no-underline"
                 onClick={() => setOpen(false)}
               >
                 Giriş Yap

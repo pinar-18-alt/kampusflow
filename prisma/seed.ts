@@ -35,7 +35,7 @@ async function main() {
       password: await hash("user123", saltRounds),
       role: "user",
       name: "Ali Yılmaz",
-      faculty: "Mühendislik",
+      faculty: "İnegöl İşletme Fakültesi",
     },
   });
 
@@ -45,7 +45,7 @@ async function main() {
       password: await hash("user123", saltRounds),
       role: "user",
       name: "Ayşe Kaya",
-      faculty: "Tıp",
+      faculty: "İnegöl İşletme Fakültesi",
     },
   });
 
@@ -55,14 +55,20 @@ async function main() {
       password: await hash("user123", saltRounds),
       role: "user",
       name: "Mehmet Demir",
-      faculty: "İktisadi İdari Bilimler",
+      faculty: "İnegöl İşletme Fakültesi",
     },
   });
 
   const now = new Date();
 
+  const communityDefaults = {
+    community: "UYBİST",
+    communityLogo: "/uybist-logo.png",
+  } as const;
+
   await prisma.event.create({
     data: {
+      ...communityDefaults,
       title: "Yapay Zeka ve Gelecek Paneli",
       description:
         "Yapay zekanın eğitim, sağlık ve iş dünyasındaki dönüşümünü uzman konuşmacılarla ele alıyoruz. Akademisyenler, sektör temsilcileri ve öğrencilerin bir araya geleceği panelde güncel trendler, etik tartışmalar ve kariyer fırsatları paylaşılacak. Soru-cevap bölümü ve networking için zaman ayrılmıştır.",
@@ -75,6 +81,7 @@ async function main() {
 
   await prisma.event.create({
     data: {
+      ...communityDefaults,
       title: "Kariyer Günleri 2025",
       description:
         "Üniversitemizin en büyük kariyer etkinliklerinden biri olan Kariyer Günleri’nde onlarca firma stant açıyor, staj ve iş ilanları sunuyor. CV danışmanlığı, mock mülakatlar ve sektörel sunumlarla mezuniyet öncesi profesyonel dünyaya hazırlanın. Tüm sınıflar davetlidir.",
@@ -87,6 +94,7 @@ async function main() {
 
   await prisma.event.create({
     data: {
+      ...communityDefaults,
       title: "Girişimcilik Workshopu",
       description:
         "Fikirden MVP’ye giden yolu uygulamalı olarak öğreneceğiniz yoğun bir atölye. İş modeli kanvası, pazar doğrulama ve sunum teknikleri üzerinde çalışacağız. Küçük gruplar halinde mentor eşliğinde proje geliştireceksiniz; son gün kısa pitch oturumu yapılacaktır.",
@@ -99,6 +107,7 @@ async function main() {
 
   await prisma.event.create({
     data: {
+      ...communityDefaults,
       title: "Mezunlarla Buluşma",
       description:
         "Farklı mesleklerden mezunlarımız kampüste öğrencilerle buluşuyor. Deneyim paylaşımı, mentörlük ve networking odaklı bu etkinlikte mezunların kariyer yolculuklarını dinleyebilir, sorularınızı iletebilirsiniz. Kontenjan sınırlıdır; kayıt sırasına göre onay verilecektir.",

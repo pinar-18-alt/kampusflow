@@ -4,14 +4,21 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 
-const linkBase =
-  "rounded-lg px-3 py-2 text-sm font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white";
-
 export function AdminNavbar() {
   const pathname = usePathname();
 
+  const dashActive = pathname === "/admin";
+  const eventsActive = pathname.startsWith("/admin/events");
+
+  const linkClass = (active: boolean) =>
+    `rounded-xl px-3 py-2 text-sm font-medium transition-all ${
+      active
+        ? "bg-white/20 text-white"
+        : "text-teal-100 hover:bg-white/10 hover:text-white"
+    }`;
+
   return (
-    <header className="bg-[#005F73] text-white shadow-md">
+    <header className="bg-gradient-to-r from-[#005F73] to-[#00A693] text-white shadow-md">
       <nav
         className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-3"
         aria-label="Yönetim gezinmesi"
@@ -23,22 +30,16 @@ export function AdminNavbar() {
           KampüsFlow Admin
         </Link>
         <div className="flex flex-wrap items-center gap-1 sm:gap-2">
-          <Link
-            href="/admin"
-            className={`${linkBase} ${pathname === "/admin" ? "bg-white/15" : ""}`}
-          >
+          <Link href="/admin" className={linkClass(dashActive)}>
             Dashboard
           </Link>
-          <Link
-            href="/admin/events"
-            className={`${linkBase} ${pathname.startsWith("/admin/events") ? "bg-white/15" : ""}`}
-          >
+          <Link href="/admin/events" className={linkClass(eventsActive)}>
             Etkinlikler
           </Link>
           <button
             type="button"
-            onClick={() => void signOut({ callbackUrl: "/login" })}
-            className={`${linkBase} border border-white/30 bg-transparent`}
+            onClick={() => signOut({ callbackUrl: "/login" })}
+            className="rounded-xl border border-white/30 bg-transparent px-3 py-2 text-sm font-medium text-teal-100 transition-all hover:bg-white/10 hover:text-white"
           >
             Çıkış Yap
           </button>

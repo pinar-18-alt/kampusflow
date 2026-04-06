@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .btn-primary {
+    @apply rounded-2xl bg-gradient-to-r from-[#00A693] to-[#007A6E] px-6 py-3 font-semibold text-white transition-all duration-200;
+    @apply hover:-translate-y-0.5 hover:shadow-lg hover:shadow-teal-500/25;
+    @apply active:translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply rounded-2xl border-2 border-[#00A693] px-6 py-3 font-semibold text-[#00A693] transition-all duration-200;
+    @apply hover:bg-[#00A693] hover:text-white;
+  }
+
+  .card {
+    @apply rounded-3xl border border-gray-100 bg-white;
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #1a1a2e;

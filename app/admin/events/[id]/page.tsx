@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { tr } from "date-fns/locale/tr";
 import { prisma } from "@/lib/prisma";
 import { EventQuotaBar } from "@/app/components/EventQuotaBar";
+import { LogoImageWithFallback } from "@/app/components/LogoImageWithFallback";
 import { CloseEventButton } from "./CloseEventButton";
 
 export const dynamic = "force-dynamic";
@@ -49,6 +50,9 @@ export default async function AdminEventDetailPage({
 
   if (!event) notFound();
 
+  const community = event.community ?? "UYBİST";
+  const communityLogo = event.communityLogo ?? "/uybist-logo.png";
+
   const confirmed = event.registrations.filter((r) => r.status === "confirmed");
   const waitlisted = event.registrations
     .filter((r) => r.status === "waitlist")
@@ -68,6 +72,20 @@ export default async function AdminEventDetailPage({
       </Link>
 
       <article className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-md md:p-8">
+        <div className="mb-4 flex items-center gap-3 border-b border-slate-100 pb-4">
+          <LogoImageWithFallback
+            src={communityLogo}
+            alt={community}
+            imgClassName="h-10 w-10 rounded-lg object-contain"
+            fallbackClassName="h-10 w-10 rounded-lg text-xs"
+          />
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Topluluk
+            </p>
+            <p className="text-lg font-bold text-[#005F73]">{community}</p>
+          </div>
+        </div>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <h1 className="text-2xl font-bold text-[#005F73]">{event.title}</h1>
           <div className="flex flex-wrap items-center gap-3">

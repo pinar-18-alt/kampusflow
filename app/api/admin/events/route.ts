@@ -43,10 +43,11 @@ export async function POST(request: Request) {
       );
     }
 
-    const { title, description, quota, deadline } = body as Record<
-      string,
-      unknown
-    >;
+    const DEFAULT_COMMUNITY = "UYBİST";
+    const DEFAULT_COMMUNITY_LOGO = "/uybist-logo.png";
+
+    const { title, description, quota, deadline, community, communityLogo } =
+      body as Record<string, unknown>;
 
     const titleStr = typeof title === "string" ? title.trim() : "";
     const descStr = typeof description === "string" ? description.trim() : "";
@@ -112,10 +113,21 @@ export async function POST(request: Request) {
       );
     }
 
+    const communityStr =
+      typeof community === "string" && community.trim()
+        ? community.trim()
+        : DEFAULT_COMMUNITY;
+    const communityLogoStr =
+      typeof communityLogo === "string" && communityLogo.trim()
+        ? communityLogo.trim()
+        : DEFAULT_COMMUNITY_LOGO;
+
     const event = await prisma.event.create({
       data: {
         title: titleStr,
         description: descStr,
+        community: communityStr,
+        communityLogo: communityLogoStr,
         quota: quotaNum,
         deadline: deadlineDate,
         status: "active",

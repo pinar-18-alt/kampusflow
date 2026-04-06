@@ -6,7 +6,12 @@ import { useRouter } from "next/navigation";
 import { signIn, getSession } from "next-auth/react";
 
 const inputClass =
-  "w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-800 outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-[#00A693]";
+  "w-full rounded-2xl border-2 border-gray-100 bg-gray-50 px-4 py-3.5 text-gray-800 outline-none transition-all duration-200 focus:border-[#00A693] focus:bg-white focus:ring-4 focus:ring-[#00A693]/10";
+
+const labelClass = "mb-1.5 block text-sm font-medium text-gray-700";
+
+const submitClass =
+  "flex w-full transform items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#00A693] to-[#007A6E] py-3.5 font-semibold text-white shadow-lg shadow-[#00A693]/25 transition-all duration-200 hover:-translate-y-0.5 hover:from-[#007A6E] hover:to-[#005F73] hover:shadow-xl hover:shadow-[#00A693]/30 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:shadow-lg";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -49,10 +54,7 @@ export default function LoginPage() {
       </h2>
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label
-            htmlFor="email"
-            className="mb-1.5 block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="email" className={labelClass}>
             E-posta
           </label>
           <input
@@ -68,10 +70,7 @@ export default function LoginPage() {
           />
         </div>
         <div>
-          <label
-            htmlFor="password"
-            className="mb-1.5 block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="password" className={labelClass}>
             Şifre
           </label>
           <input
@@ -90,11 +89,7 @@ export default function LoginPage() {
             {error}
           </p>
         ) : null}
-        <button
-          type="submit"
-          disabled={loading}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#00A693] py-3 font-semibold text-white transition-colors hover:bg-[#007A6E] disabled:cursor-not-allowed disabled:opacity-70"
-        >
+        <button type="submit" disabled={loading} className={submitClass}>
           {loading ? (
             <>
               <span

@@ -62,24 +62,22 @@ function RegistrationRow({
   header?: ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-transparent transition-colors hover:border-gray-100 hover:bg-gray-50">
-      <div className="flex flex-col gap-2 p-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="min-w-0 flex-1">
-          {header}
-          <p className="font-semibold text-gray-900">{reg.event.title}</p>
-          <p className="mt-0.5 text-sm text-gray-500">
-            Son başvuru: {formatDeadline(reg.event.deadline)}
-          </p>
-        </div>
-        <div className="flex shrink-0 flex-wrap items-center gap-2 sm:flex-col sm:items-end">
-          {statusBadge(reg)}
-          <Link
-            href={`/events/${reg.event.id}`}
-            className="text-sm font-semibold text-[#00A693] hover:text-[#005F73]"
-          >
-            Etkinliğe Git →
-          </Link>
-        </div>
+    <div className="flex cursor-pointer flex-col gap-2 p-4 transition-colors hover:rounded-2xl hover:bg-gray-50 sm:flex-row sm:items-center sm:justify-between">
+      <div className="min-w-0 flex-1">
+        {header}
+        <p className="font-semibold text-gray-900">{reg.event.title}</p>
+        <p className="mt-0.5 text-sm text-gray-500">
+          Son başvuru: {formatDeadline(reg.event.deadline)}
+        </p>
+      </div>
+      <div className="flex shrink-0 flex-wrap items-center gap-2 sm:flex-col sm:items-end">
+        {statusBadge(reg)}
+        <Link
+          href={`/events/${reg.event.id}`}
+          className="text-sm font-semibold text-[#00A693] hover:text-[#005F73]"
+        >
+          Etkinliğe Git →
+        </Link>
       </div>
     </div>
   );
@@ -87,7 +85,7 @@ function RegistrationRow({
 
 function EmptyState({ icon, message }: { icon: string; message: string }) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-gray-50 px-6 py-12 text-center">
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-gray-50/80 px-6 py-12 text-center">
       <span className="mb-3 text-4xl" aria-hidden>
         {icon}
       </span>
@@ -112,8 +110,8 @@ function Section({
   emptyIcon: string;
 }) {
   return (
-    <section className="mt-10">
-      <h2 className="mb-4 border-b border-gray-200 pb-3 text-lg font-semibold text-gray-800">
+    <section className="card mb-4 p-6 shadow-sm">
+      <h2 className="mb-4 border-b border-gray-100 pb-3 text-lg font-semibold text-gray-800">
         {title}{" "}
         <span className="ml-2 inline-flex rounded-full bg-[#E0F5F2] px-2 py-0.5 text-xs font-semibold text-[#00A693]">
           {count}
@@ -122,9 +120,14 @@ function Section({
       {items.length === 0 ? (
         <EmptyState icon={emptyIcon} message={emptyLabel} />
       ) : (
-        <ul className="divide-y divide-gray-100 rounded-xl border border-gray-100 bg-white">
+        <ul>
           {items.map((reg) => (
-            <li key={reg.id}>{renderItem(reg)}</li>
+            <li
+              key={reg.id}
+              className="border-b border-gray-50 last:border-b-0"
+            >
+              {renderItem(reg)}
+            </li>
           ))}
         </ul>
       )}
@@ -172,82 +175,84 @@ export default async function ProfilePage() {
   const isAdmin = user.role === "admin";
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-8 md:py-10">
-      <div className="mb-6 rounded-2xl bg-white p-6 shadow-sm">
-        <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:text-left">
-          <div
-            className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#00A693] to-[#005F73] text-3xl font-bold text-white shadow-md"
-            aria-hidden
-          >
-            {initials}
-          </div>
-          <div className="min-w-0 flex-1 text-center sm:text-left">
-            <h1 className="text-2xl font-bold text-gray-900">
-              {user.name ?? "İsimsiz kullanıcı"}
-            </h1>
-            <p className="mt-1 text-gray-500">{user.email}</p>
-            {user.faculty ? (
-              <p className="mt-2 text-sm font-medium text-gray-700">
-                {user.faculty}
-              </p>
-            ) : null}
-            <div className="mt-4">
-              {isAdmin ? (
-                <span className="inline-flex rounded-full bg-purple-100 px-3 py-1 text-sm font-semibold text-purple-700">
-                  Yönetici
-                </span>
-              ) : (
-                <span className="inline-flex rounded-full bg-teal-100 px-3 py-1 text-sm font-semibold text-teal-800">
-                  Öğrenci
-                </span>
-              )}
+    <main className="min-h-screen bg-gray-50 px-4 py-8 md:py-10">
+      <div className="mx-auto max-w-3xl">
+        <div className="mb-6 rounded-3xl bg-gradient-to-br from-[#00A693] to-[#005F73] p-8 text-white">
+          <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:text-left">
+            <div
+              className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-white/20 text-2xl font-bold text-white ring-4 ring-white/30 backdrop-blur-sm"
+              aria-hidden
+            >
+              {initials}
+            </div>
+            <div className="min-w-0 flex-1 text-center sm:text-left">
+              <h1 className="text-2xl font-bold text-white">
+                {user.name ?? "İsimsiz kullanıcı"}
+              </h1>
+              <p className="mt-1 text-teal-100">{user.email}</p>
+              {user.faculty ? (
+                <p className="mt-2 text-sm font-medium text-teal-200">
+                  {user.faculty}
+                </p>
+              ) : null}
+              <div className="mt-4">
+                {isAdmin ? (
+                  <span className="inline-flex rounded-full bg-white/20 px-3 py-1 text-sm font-semibold text-white">
+                    Yönetici
+                  </span>
+                ) : (
+                  <span className="inline-flex rounded-full bg-white/15 px-3 py-1 text-sm font-semibold text-teal-100">
+                    Öğrenci
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </div>
+
+        <h2 className="mb-2 text-xl font-bold text-[#005F73]">Etkinliklerim</h2>
+        <p className="mb-6 text-sm text-gray-500">
+          Kayıtlı olduğunuz ve beklediğiniz etkinlikler
+        </p>
+
+        <Section
+          title="Katıldıklarım"
+          count={attended.length}
+          items={attended}
+          emptyLabel="Henüz kayıtlı olduğunuz bir etkinlik yok"
+          emptyIcon="✅"
+          renderItem={(reg) => <RegistrationRow reg={reg} />}
+        />
+
+        <Section
+          title="Bekleme Listesi"
+          count={waitlist.length}
+          items={waitlist}
+          emptyLabel="Bekleme listesinde olduğunuz etkinlik yok"
+          emptyIcon="⏳"
+          renderItem={(reg) => (
+            <RegistrationRow
+              reg={reg}
+              header={
+                reg.position != null ? (
+                  <p className="mb-1 text-xs font-medium text-amber-800">
+                    {reg.position}. sırada bekliyorsunuz
+                  </p>
+                ) : null
+              }
+            />
+          )}
+        />
+
+        <Section
+          title="Geçmiş Etkinlikler"
+          count={past.length}
+          items={past}
+          emptyLabel="Geçmiş etkinlik kaydınız bulunmuyor"
+          emptyIcon="📅"
+          renderItem={(reg) => <RegistrationRow reg={reg} />}
+        />
       </div>
-
-      <h2 className="mb-2 text-xl font-bold text-[#005F73]">Etkinliklerim</h2>
-      <p className="mb-6 text-sm text-gray-500">
-        Kayıtlı olduğunuz ve beklediğiniz etkinlikler
-      </p>
-
-      <Section
-        title="Katıldıklarım"
-        count={attended.length}
-        items={attended}
-        emptyLabel="Henüz kayıtlı olduğunuz bir etkinlik yok"
-        emptyIcon="✅"
-        renderItem={(reg) => <RegistrationRow reg={reg} />}
-      />
-
-      <Section
-        title="Bekleme Listesi"
-        count={waitlist.length}
-        items={waitlist}
-        emptyLabel="Bekleme listesinde olduğunuz etkinlik yok"
-        emptyIcon="⏳"
-        renderItem={(reg) => (
-          <RegistrationRow
-            reg={reg}
-            header={
-              reg.position != null ? (
-                <p className="mb-1 text-xs font-medium text-amber-800">
-                  {reg.position}. sırada bekliyorsunuz
-                </p>
-              ) : null
-            }
-          />
-        )}
-      />
-
-      <Section
-        title="Geçmiş Etkinlikler"
-        count={past.length}
-        items={past}
-        emptyLabel="Geçmiş etkinlik kaydınız bulunmuyor"
-        emptyIcon="📅"
-        renderItem={(reg) => <RegistrationRow reg={reg} />}
-      />
     </main>
   );
 }
