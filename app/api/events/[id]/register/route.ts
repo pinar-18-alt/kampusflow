@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+import {
+  sendRegistrationConfirmation,
+  sendWaitlistConfirmation,
+} from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -134,6 +138,53 @@ export async function POST(
     if (!outcome.ok) {
       return NextResponse.json(outcome.body, { status: outcome.status });
     }
+
+    if (outcome.body.success) {
+      const [user, event] = await Promise.all([
+        prisma.user.findUnique({
+          where: { id: userId },
+          select: { email: true, name: true },
+        }),
+        prisma.event.findUnique({
+          where: { id: eventId },
+          select: { title: true, deadline: true },
+        }),
+      ]);
+
+      if (user?.email && event) {
+        if (
+          "status" in outcome.body &&
+          outcome.body.status === "confirmed"
+        ) {
+          try {
+            await sendRegistrationConfirmation(
+              user.email,
+              user.name ?? "Kullanıcı",
+              event.title,
+              event.deadline
+            );
+          } catch (error) {
+            console.error("Email gönderilemedi:", error);
+          }
+        } else if (
+          "status" in outcome.body &&
+          outcome.body.status === "waitlist" &&
+          "position" in outcome.body
+        ) {
+          try {
+            await sendWaitlistConfirmation(
+              user.email,
+              user.name ?? "Kullanıcı",
+              event.title,
+              outcome.body.position
+            );
+          } catch (error) {
+            console.error("Email gönderilemedi:", error);
+          }
+        }
+      }
+    }
+
     return NextResponse.json(outcome.body);
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") {

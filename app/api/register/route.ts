@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { hash } from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { sendWelcomeEmail } from "@/lib/email";
 
 const ULUDAG_SUFFIX = "@uludag.edu.tr";
 
@@ -68,6 +69,12 @@ export async function POST(request: Request) {
         role: "user",
       },
     });
+
+    try {
+      await sendWelcomeEmail(emailLower, nameStr);
+    } catch (error) {
+      console.error("Email gönderilemedi:", error);
+    }
 
     return NextResponse.json({ success: true, message: "Kayıt başarılı" });
   } catch {

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { sendWaitlistPromoted } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -72,6 +73,7 @@ export async function POST(
               message:
                 "Kaydınız iptal edildi. Bekleme listesindeki kişi otomatik alındı.",
             },
+            promotedUserId: firstWaitlist.userId,
           };
         }
 
@@ -123,6 +125,35 @@ export async function POST(
     if (!outcome.ok) {
       return NextResponse.json(outcome.body, { status: outcome.status });
     }
+
+    if (
+      outcome.ok &&
+      "promotedUserId" in outcome &&
+      typeof outcome.promotedUserId === "string"
+    ) {
+      const [promotedUser, event] = await Promise.all([
+        prisma.user.findUnique({
+          where: { id: outcome.promotedUserId },
+          select: { email: true, name: true },
+        }),
+        prisma.event.findUnique({
+          where: { id: eventId },
+          select: { title: true },
+        }),
+      ]);
+      if (promotedUser?.email && event) {
+        try {
+          await sendWaitlistPromoted(
+            promotedUser.email,
+            promotedUser.name ?? "Kullanıcı",
+            event.title
+          );
+        } catch (error) {
+          console.error("Email gönderilemedi:", error);
+        }
+      }
+    }
+
     return NextResponse.json(outcome.body);
   } catch {
     return NextResponse.json(
